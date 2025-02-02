@@ -1,10 +1,28 @@
-import Image from 'next/image'
-import React from 'react'
-import RegistrationImg from "../../assets/images/login/login.svg"
-import { FaFacebook, FaGoogle, FaLinkedin } from 'react-icons/fa'
-import Link from 'next/link'
+"use client";
+import Image from "next/image";
+import React from "react";
+import RegistrationImg from "../../assets/images/login/login.svg";
+import { FaFacebook, FaGoogle, FaLinkedin } from "react-icons/fa";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const Login = () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      await signIn("credentials", { email, password, callbackUrl: "/" });
+    } catch (error) {
+      console.log(error);
+      alert("authentication error");
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="bg-white rounded-2xl shadow-lg flex flex-col md:flex-row w-full max-w-4xl">
@@ -15,16 +33,17 @@ const Login = () => {
             alt="Signup Illustration"
             width={300}
             height={300}
-            className='w-auto h-auto'
+            className="w-auto h-auto"
           />
         </div>
 
         {/* Right Side Form */}
         <div className="flex-1 p-8">
           <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <input
+                name="email"
                 type="email"
                 placeholder="Your email"
                 className="w-full p-3 border rounded-lg focus:ring focus:ring-orange-400"
@@ -32,12 +51,16 @@ const Login = () => {
             </div>
             <div>
               <input
+                name="password"
                 type="password"
                 placeholder="Your password"
                 className="w-full p-3 border rounded-lg focus:ring focus:ring-orange-400"
               />
             </div>
-            <button className="w-full bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600">
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600"
+            >
               Login
             </button>
           </form>
@@ -66,7 +89,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
