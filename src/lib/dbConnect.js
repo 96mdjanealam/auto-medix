@@ -1,6 +1,11 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 
+export const dbCollection = {
+  services: "services",
+  users: "users",
+}
+
 export default function dbConnect (collectionName) {
     const uri =
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mqmjq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;

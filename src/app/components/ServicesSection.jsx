@@ -2,13 +2,12 @@ import React from "react";
 
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
-import dbConnect, { collectionNamesObj } from "@/lib/dbConnect";
+import dbConnect, { dbCollection } from "@/lib/dbConnect";
 import Link from "next/link";
 
 const ServicesSection = async() => {
 
-
-  const data = await dbConnect("services").find().toArray();
+  const data = await dbConnect(dbCollection.services).find().toArray();
 
   return (
     <div className="w-11/12 mx-auto">

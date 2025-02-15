@@ -1,12 +1,12 @@
 "use server";
 import bcrypt from "bcrypt";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect, { dbCollection } from "@/lib/dbConnect";
 
 export const loginUser = async (payload) => {
   const { email, password } = payload;
 
   try { 
-    const user = await dbConnect("users").findOne({ email });
+    const user = await dbConnect(dbCollection.users).findOne({ email });
     if (!user || !user.password) {
       console.log("User not found or password missing");
       return null;
