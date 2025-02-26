@@ -2,24 +2,39 @@
 import Image from "next/image";
 import React from "react";
 import RegistrationImg from "../../assets/images/login/login.svg";
-import { FaFacebook, FaGoogle, FaLinkedin } from "react-icons/fa";
+
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import SocialLogin from "./components/SocialLogin";
 
 const Login = () => {
-
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-
+    toast("Submitting ...");
     try {
-      await signIn("credentials", { email, password, callbackUrl: "/" });
+      const response = await signIn("credentials", {
+        email,
+        password,
+        // callbackUrl: "/",
+        redirect: false,
+      });
+      if (response.ok) {
+        toast.success("Logged in successfully!");
+        router.push("/");
+        form.reset();
+      } else {
+        toast.error("Authentication failed!");
+      }
     } catch (error) {
       console.log(error);
-      alert("authentication error");
+      toast.error("Authentication failed!");
     }
   };
 
@@ -68,17 +83,7 @@ const Login = () => {
           <div className="text-center my-4 text-gray-500">Or Login with</div>
 
           {/* Social Media Login */}
-          <div className="flex justify-center space-x-4 text-xl">
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaFacebook></FaFacebook>
-            </button>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaLinkedin></FaLinkedin>
-            </button>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaGoogle></FaGoogle>
-            </button>
-          </div>
+          <SocialLogin></SocialLogin>
 
           <p className="text-center text-gray-600 mt-4">
             New to this site?{" "}

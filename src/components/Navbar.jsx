@@ -1,13 +1,17 @@
-"use client"
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import logo from "../assets/logo.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const pathname = usePathname();
-  
+
+  const { data: session, status } = useSession();
+
   const navMenu = (
     <>
       <li>
@@ -73,13 +77,21 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end">
-          <div className="flex gap-2">
-            {pathname.includes("login")?<Link href={"/register"}>
-              <button className="btn btn-sm">Register</button>
-            </Link>:<Link href={"/login"}>
-              <button className="btn btn-sm">Login</button>
-            </Link>}
-          </div>
+          {status == "authenticated" ? (
+            <button className="btn btn-sm" onClick={()=> signOut()}>Logout</button>
+          ) : (
+            <div className="flex gap-2">
+              {pathname.includes("login") ? (
+                <Link href={"/register"}>
+                  <button className="btn btn-sm">Register</button>
+                </Link>
+              ) : (
+                <Link href={"/login"}>
+                  <button className="btn btn-sm">Login</button>
+                </Link>
+              )}
+            </div>
+          )}
           <a className="btn outline outline-2 outline-gray-300 ml-2">
             Appointment
           </a>

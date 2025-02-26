@@ -16,10 +16,11 @@ const ServicesSection = async() => {
           <div key={item._id} className="border-2 p-4 rounded-lg shadow-lg">
             <figure className="w-full h-60">
               <Image
-                src={item.img}
+                src={item?.img}
                 alt={item.title}
                 width={314}
-                height={208} 
+                height={208}
+                unoptimized 
                 className="object-cover w-full h-full rounded-lg"
               />
             </figure>

@@ -5,6 +5,7 @@ import { FaFacebook, FaGoogle, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import SignupImg from "../../assets/images/login/login.svg";
 import { registerUser } from "../actions/auth/registerUser";
+import SocialLogin from "../login/components/SocialLogin";
 
 const Register = () => {
   const handleSubmit = async (e) => {
@@ -78,17 +79,7 @@ const Register = () => {
           <div className="text-center my-4 text-gray-500">Or Sign Up with</div>
 
           {/* Social Media Login */}
-          <div className="flex justify-center space-x-4 text-xl">
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaFacebook></FaFacebook>
-            </button>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaLinkedin></FaLinkedin>
-            </button>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <FaGoogle></FaGoogle>
-            </button>
-          </div>
+          <SocialLogin></SocialLogin>
 
           <p className="text-center text-gray-600 mt-4">
             Already have an account?{" "}
