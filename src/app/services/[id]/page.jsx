@@ -3,13 +3,18 @@ import { ObjectId } from "mongodb";
 import Image from "next/image";
 import React from "react";
 import bannerImg from "../../../assets/images/checkout/checkout.png";
+import Link from "next/link";
 
 const ServiceDetailsPage = async ({ params }) => {
   const { id } = await params;
 
-  const data = await dbConnect(dbCollection.services).findOne({
-    _id: new ObjectId(id),
-  });
+  // const data = await dbConnect(dbCollection.services).findOne({
+  //   _id: new ObjectId(id),
+  // });
+
+  const res = await fetch(`http://localhost:3000/api/service/${id}`)
+  const data = await res.json();
+
 
   return (
     <div className="w-11/12 mx-auto">
@@ -28,7 +33,12 @@ const ServiceDetailsPage = async ({ params }) => {
             </h2>
           </div>
         </figure>
-        <p className="mt-6 font-bold">{data.title}</p>
+        <div className="mt-6 flex items-center gap-3 font-bold"><p>Price: {data.price}</p>
+        <Link href={`/checkout/${data._id}`}>
+        <button className="btn btn-sm btn-success">checkout</button>
+        </Link>
+        </div>
+        <p className="mt-3 font-bold">{data.title}</p>
         <p className="mt-6">{data.description}</p>
       </section>
       <h4 className="my-5 font-bold">Facilities</h4>
